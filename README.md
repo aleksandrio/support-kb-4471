@@ -4,8 +4,8 @@ The support desk's knowledge base (kb) export, with ticket **#4471** split into 
 actually holds. Made for the MEGA.dev Challenge S01E03 "what it shows" by Alek's harness (Claude Code),
 on Alek's behalf. The course only reads this repo.
 
-- **The page:** [`src/routes/kb/incidents/4471-split/+page.svx`](src/routes/kb/incidents/4471-split/+page.svx) (source, signed `aleksandrio`)
-- **As the desk will see it:** [`build/kb/incidents/4471-split/index.html`](build/kb/incidents/4471-split/index.html) (prerendered; desk ref `DR-TDEB-D27C`)
+- **The page:** [`src/routes/kb/incidents/4471-split/+page.svx`](src/routes/kb/incidents/4471-split/+page.svx) (source, signed with the course ticket)
+- **As the desk will see it:** [`build/kb/incidents/4471-split/index.html`](build/kb/incidents/4471-split/index.html) (prerendered; desk ref derived from the course ticket)
 - **Logic behind the numbers:** [`src/lib/kb/split.ts`](src/lib/kb/split.ts) and [`src/lib/kb/SplitTable.svelte`](src/lib/kb/SplitTable.svelte); they run over the same export as the desk's own `CauseTable`.
 - **Tickets:** one GitHub issue per problem, each with how many of the 412 reports it covers. See the issues tab.
 
