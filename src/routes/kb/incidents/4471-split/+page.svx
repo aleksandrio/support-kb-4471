@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 · three problems, not one'
 owner: aleksandrio
-status: proposed
+status: resolved
 reviewed: 2026-10-28
 signature: aleksandrio
 ---
@@ -59,6 +59,15 @@ tell them apart. The intake tag could not help either: it is a guess from the re
 locale, and it disagrees with the tenant directory on a meaningful share of reports, in both
 directions. The one place that knew the difference was the report body, which the rule says nobody
 has to read.
+
+## Outcome
+
+The desk closed #4471 on 5 October. The parser is fixed (`fix(dates): parse dd/mm for eu locales`),
+so [ticket #1](https://github.com/aleksandrio/support-kb-4471/issues/1) is closed as completed. The
+booking-v3 form was retired rather than fixed, so
+[ticket #2](https://github.com/aleksandrio/support-kb-4471/issues/2) is closed as not planned. Neither
+change touches a one-day move across a time-zone boundary, so
+[ticket #3](https://github.com/aleksandrio/support-kb-4471/issues/3) stays open.
 
 ## Lessons
 
