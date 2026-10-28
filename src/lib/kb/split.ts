@@ -46,10 +46,11 @@ export function splitTicket(
   tenantOf: (r: Report) => Tenant | undefined,
   oneDayMove: readonly string[],
 ): Split {
+  // Counted as the desk counts: by tenant, the one-day moves inside the parser row where they are
+  // filed. Then the moves get a row of their own, as the footnote made visible.
   const merged = uniqueById(all).filter((r) => r.mergedInto === ticket);
   const moved = merged.filter((r) => oneDayMove.includes(r.id));
-  const rest = merged.filter((r) => !oneDayMove.includes(r.id));
-  const byCause = new Map(groupByCause(rest, tenantOf).map((g) => [g.cause, g.reports] as const));
+  const byCause = new Map(groupByCause(merged, tenantOf).map((g) => [g.cause, g.reports] as const));
   const rows = [
     row('parser', byCause.get('parser') ?? [], tenantOf),
     row('hint', byCause.get('hint') ?? [], tenantOf),
@@ -58,7 +59,8 @@ export function splitTicket(
   return { rowsInExport: all.length, merged: merged.length, rows, oneDayMove };
 }
 
-// Every merged report lands in exactly one row, or the split is wrong.
+// The by-tenant rows cover every merged report once; the one-day moves are a subset of parser.
 export function addsUp(s: Split): boolean {
-  return s.rows.reduce((n, r) => n + r.reports.length, 0) === s.merged;
+  const byTenant = s.rows.filter((r) => r.problem !== 'one-day-move').reduce((n, r) => n + r.reports.length, 0);
+  return byTenant === s.merged;
 }

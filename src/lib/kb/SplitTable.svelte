@@ -15,7 +15,7 @@
   const LABEL: Record<Problem, string> = {
     parser: 'shared parser reads dates month-first',
     hint: 'booking-v3 hint says MM/DD, form reads day-first',
-    'one-day-move': 'date moves by one day, month intact',
+    'one-day-move': 'date moves by one day, month intact (filed inside parser)',
   };
   const channels = (c: Record<string, number>) =>
     Object.entries(c)
@@ -51,9 +51,10 @@
 </table>
 
 <p class="note">
-  Intake's tag disagrees with the tenant-based cause on <strong>{mistagged}</strong> reports; the tag is a guess from
-  the reporter's browser. The one-day moves are the reports in <code>desk-notes.json</code>
-  ({split.oneDayMove.join(', ')}), read by the desk, filed by tenant.
+  Counted as the desk counts, by tenant: the one-day moves ({split.oneDayMove.join(', ')}, from
+  <code>desk-notes.json</code>) sit inside the parser row, so the first two rows add up to the ticket and the third is
+  the footnote given a ticket of its own. Intake's tag disagrees with the tenant-based cause on
+  <strong>{mistagged}</strong> reports; the tag is a guess from the reporter's browser.
 </p>
 
 <style>

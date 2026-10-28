@@ -47,7 +47,8 @@ through the form. Fixing the parser will not fix this; the hint or the form must
 **A one-day move.** A handful of reports describe no swap at all: the month is right and the day is
 off by one, or two clients in different time zones got different days for the same meeting. That
 is a time-zone boundary, not a date format. The desk read these correctly and noted them in
-`desk-notes.json`, then filed them under the parser by tenant, where they would have waited for a
+`desk-notes.json`, then filed them under the parser by tenant. The table above counts them the
+same way, inside the parser row, and gives them a ticket of their own so they stop waiting for a
 fix that cannot touch them.
 
 ## Why one ticket held all three
