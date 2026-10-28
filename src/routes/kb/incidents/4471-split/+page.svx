@@ -1,0 +1,70 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: aleksandrio
+status: proposed
+reviewed: 2026-10-28
+signature: aleksandrio
+---
+
+<script>
+  import SplitTable from '#lib/kb/SplitTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+  const issues = {
+    parser: 'aleksandrio/support-kb-4471#1',
+    hint: 'aleksandrio/support-kb-4471#2',
+    'one-day-move': 'aleksandrio/support-kb-4471#3',
+  };
+</script>
+
+The [#4471 page](/kb/incidents/4471) says one issue, one fix queued. The table it renders under
+those words says something else: two causes, one of them marked as having no ticket of its own,
+and a footnote counting reports the desk read as a one-day move. Reading every report body in
+the export gives three problems, each with its own fix. They are now three tickets.
+
+<Callout kind="warn">
+The words on a kb page are a claim. The tables are built from the export at render time. When they
+disagree, trust the table, then fix the words.
+</Callout>
+
+## What #4471 holds
+
+<SplitTable ticket={4471} {issues} />
+
+## The three problems
+
+**Parser reads month first.** Every tenant on file writes the day first, and the shared parser
+reads every date month first, so `7 April` goes out as `4 July`. It shows up on every channel and
+every tenant. Fix: parse with the tenant's locale, which `causes.ts` already knows how to ask the
+platform for.
+
+**The booking-v3 hint tells people to type month first.** Under its date field, booking-v3 prints
+`MM/DD/YYYY`. People do what the hint says, and the form reads the field the tenant's way, so the
+same swap appears for a different reason. Only the three tenants on booking-v3 see it, and only
+through the form. Fixing the parser will not fix this; the hint or the form must change.
+
+**A one-day move.** A handful of reports describe no swap at all: the month is right and the day is
+off by one, or two clients in different time zones got different days for the same meeting. That
+is a time-zone boundary, not a date format. The desk read these correctly and noted them in
+`desk-notes.json`, then filed them under the parser by tenant, where they would have waited for a
+fix that cannot touch them.
+
+## Why one ticket held all three
+
+[Decision 0001](/kb/decisions/0001-dedupe-by-subject) merges on the subject line alone. The twelve
+subject lines in this ticket are shared across all three problems, so subject matching could not
+tell them apart. The intake tag could not help either: it is a guess from the reporter's browser
+locale, and it disagrees with the tenant directory on a meaningful share of reports, in both
+directions. The one place that knew the difference was the report body, which the rule says nobody
+has to read.
+
+## Lessons
+
+- A status of `known` describes the words on the page, not the data under them. Read the rendered
+  tables before trusting a Callout.
+- A footnote with a count in it is a ticket nobody filed yet.
+- Merging on subject is fast, and it hides bugs that share a symptom. When a merged ticket passes a
+  few hundred reports, sample the bodies before calling it one fix.
+
+<RenderStamp {signature} />
